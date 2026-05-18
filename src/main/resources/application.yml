@@ -1,0 +1,116 @@
+spring:
+  application:
+    name: slot-games-service
+  profiles:
+    active: local,test,game
+  mvc:
+    view:
+      prefix: /WEB-INF/views/jsp/
+      suffix: .jsp
+    static-path-pattern: /resources/**
+  jmx:
+    enabled: false
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  main:
+    allow-bean-definition-overriding: true
+
+game:
+  normal:
+    config:
+      file: classpath:SlotGame_Normal_Config.json
+  free:
+    config:
+      file: classpath:SlotGame_Free_Config.json
+  mini:
+    config:
+      file: classpath:SlotGame_Mini_Config.json
+  gamble:
+    config:
+      file: classpath:SlotGame_Gamble_Config.json
+      
+extension:
+  config:
+    file: classpath:Extension_Config.json
+
+#GRPC SERVER PORT
+grpc:
+  port: 6500
+  pool:
+    core: 4
+    maximum: 16
+    keepAlive: 60
+    queue: 5000
+
+server:
+  port: 9000 #TOMCAT SERVER PORT
+  servlet:
+    context-path: /slot
+
+
+#Config for Test
+service:
+  maxSizeQueue: 1000
+  startTest: false
+  intervalCheckStartTestSeconds: 600
+  enableKafka: false
+  maxRetrySending: 6
+  pingKafkaInterval: 1
+  jackpotHostName: localhost
+  jackpotHostPort: 4000
+#  walletHostName: localhost
+#  walletHostPort: 7005
+  walletMapping[0]:
+    agent: client1
+    host: localhost
+    port: 7000
+  playerViewStoreHostName: localhost
+  playerViewStoreHostPort: 5000
+  promotionHostName: localhost
+  promotionHostPort: 50001
+  externalServiceType:
+    jackpotService: prod
+    walletService: prod
+    playViewStoreService: prod
+    promotionService: test
+  internalServiceType:
+    joingame: prod
+    walletTrialModeService: prod
+    jackpotTrialModeService: prod
+    rtpConfigService: prod
+    activePlayerService: prod
+    jackpotEvent: prod
+  player:
+    activeTime: 10
+    idleTime: 30
+    deactiveTime: 60
+    
+logging:
+  path: log
+  maxhistory: 3
+
+#Config for Redis
+jedis:
+  readTimeout: 30
+  connectTimeout: 60
+  pool:
+    maxIdle: 30
+    minIdle: 10
+    maxTotal: 120
+redis:
+  hostname: localhost
+  port: 6379
+redis2:
+  ip2: 127.0.0.1
+  port2: 6379
+  gameConfigKeyPatterns: GameConfig, SecondGameConfig, JackpotEvent
+
+#Gamble milisecond
+gamble:
+  expiredTime: 0
+
+# Config for RTP
+rtp:
+  config:
+    file: classpath:rtp.json

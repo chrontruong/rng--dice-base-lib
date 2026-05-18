@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+option java_multiple_files = true;
+option java_package = "com.io.begstd.slot.grpc.promotiongame";
+
+service PromotionGameService {
+    rpc updateUserPromotion(UpdateUserPromotionGameRequest) returns (PromotionGameResponse);
+}
+
+message UpdateUserPromotionGameRequest {
+    repeated PromotionGameData listPromotionData = 1;
+}
+
+message PromotionGameData {
+    string userId = 1;
+    string promotionCode = 2;
+    string promitionName = 3;
+    bool   isValid = 4;
+    int64 expireAt = 5;
+    string type = 6; // 'new': user has added new promotion, 'reset': for daily reset.
+    google.protobuf.Struct data = 7; // {betid: 10, remain: 5, total: 5}
+    string curr = 8;
+}
+
+message PromotionGameResponse {
+    int32 code = 1; // status of response, 0 for success
+    string message = 2; // message to describe the code above.
+}

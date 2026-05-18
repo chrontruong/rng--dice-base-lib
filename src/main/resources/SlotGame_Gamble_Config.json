@@ -1,0 +1,30 @@
+{
+  "serviceId": "9000",
+  "wonRulesName": ["gamblerRandom"],
+  "gamblerMultiply": 2,
+  "numPlayTotalInGamble": 5,
+  "symbolGamble": [
+    {
+      "id": 1,
+      "code": "LEFT"
+    },
+    {
+      "id": 2,
+      "code": "RIGHT"
+    }
+  ],
+  "rangeGambler": [
+    {
+      "id": 1,
+      "value": [1, 2],
+      "range": [49, 100]
+    },
+    {
+      "id": 2,
+      "value": [1, 2],
+      "range": [51, 100]
+    }
+  ]
+
+  
+}

@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+option java_multiple_files = true;
+option java_package = "com.io.begstd.slot.grpc.slotbot"; 
+
+service BotSlotGameService {
+    rpc botJoinGame(BotPlayerInfo) returns (ResponseStatusBotSG) {};
+    rpc botPlayNormalSpin (BotNormalSpin) returns (ResponseStatusBotSG) {};
+    rpc botPlayFreeSpin (BotFreeSpin) returns (ResponseStatusBotSG) {};
+    rpc botPlayMiniGame (BotMiniGame) returns (ResponseStatusBotSG) {};
+    rpc botPlayFreeSpinOption (BotFreeSpinOption) returns (ResponseStatusBotSG) {};
+    rpc botResumeGameInfo(BotResumeSpin) returns (ResponseStatusBotSG) {};
+    rpc botGamble(BotGambleBet) returns (ResponseStatusBotSG) {};
+    rpc botLightningSpin (BotLightningSpin) returns (ResponseStatusBotSG) {};
+    rpc botPowerUpSpin (BotPowerUpSpin) returns (ResponseStatusBotSG) {};
+}
+
+message BotResumeSpin {
+    string uId = 1;
+    string cId = 2;
+    BotJoinGameDetail ud = 16;
+}
+
+message BotGambleBet{
+    string uId = 1;
+    string cId = 2;
+    int32 cOp = 3;
+    double talB = 4;
+    BotJoinGameDetail ud = 16;
+}
+
+
+message BotPlayerInfo {
+    string sId = 1;
+    string uId = 2;
+    string cId = 3;
+    int32 env = 4;
+    BotJoinGameDetail ud = 16;
+    string c = 17;
+}
+
+message BotNormalSpin {
+    string uId = 1;
+    string cId = 2;
+    string bId = 3;
+    double talB = 16;
+    repeated int32 bLn = 17;
+    BotJoinGameDetail ud = 18;
+    int32 wo = 19;
+}
+
+message BotFreeSpin {
+    string uId = 1;
+    string cId = 2;
+    BotJoinGameDetail ud = 16;
+}
+
+message BotMiniGame {
+    string uId = 1;
+    string cId = 2;
+    int32 cOp = 3;
+    BotJoinGameDetail ud = 16;
+}
+
+message ResponseStatusBotSG {
+    string c = 1;
+    google.protobuf.Struct st = 2;
+}
+
+message BotFreeSpinOption {
+    string uId = 1;
+    string cId = 2;
+    int32 opt = 3;
+    BotJoinGameDetail ud = 16;
+}
+
+message BotJoinGameDetail {
+    double money = 1;
+    double extraMoney = 2;
+    string displayName = 3;
+    string fullname = 4;
+    string email = 5;
+    string phone = 6;
+    string address = 7;
+    string birthday = 8;
+    string country = 9;
+    string gender = 10;
+    string avatar = 11;
+    string registerIp = 12;
+    string ip = 13;
+    string os = 14;
+    string device = 15;
+    string browser = 16;
+    repeated string denyGameIds = 17;
+    string userType = 18;
+    string userAgent = 19;
+    string agencyId = 20;
+    string memberId = 21;
+    string externalId = 22;
+    string currency = 23;
+}
+
+message BotLightningSpin {
+    string uId = 1;
+    string cId = 2;
+    int32 opt = 3;
+    BotJoinGameDetail ud = 16;
+}
+
+message BotPowerUpSpin {
+    string uId = 1;
+    string cId = 2;
+    int32 cOp = 3;
+    BotJoinGameDetail ud = 16;
+}

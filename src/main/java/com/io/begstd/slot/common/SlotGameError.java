@@ -1,0 +1,82 @@
+package com.io.begstd.slot.common;
+
+public enum SlotGameError {
+    UNEXPECTED("0000"),
+    MONEY_NOT_ENOUGH("0001"),
+    NO_FREE_SPIN("0002"),
+    NO_MINI_GAME("0003"),
+    NO_JOIN_GAME("0004"),
+    CELL_OPENED_ALREADY("0005"),
+    WALLET_NOT_EXISTED("0006"),
+    PLAYSESSION_NOT_EXISTED("0007"),
+    NO_RULE_MINI_IN_GAME("0008"),
+    NO_RULE_FREESPIN_IN_GAME("0009"),
+    EXCEED_CELL_INBONUS("0010"),
+    INVALID_TOTAL_BET("0011"),
+    INVALID_BONUS_GAME_SYMBOL("0012"),
+    ERROR_FREE_SPIN_OPTION_OVER("0013"),
+    NO_FREE_SPIN_OPTION("0014"),
+    ERROR_USER_IN_PROGRESS("0015"),
+    ERROR_USER_DEFFIRENT_BET_MODE_AWARD("0016"),
+    ERROR_USER_USE_INVALID_PROMOTION_CODE("0017"),
+    NO_LIGHTING_SPIN("0018"),
+    NO_POWER_UP_SPIN("0019"),
+    INCORRECT_POWER_UP_CELL("0020"),
+    LIGHTNING_MODE_MUST_PROCESS_BEFORE("0021"),
+    BONUS_MODE_MUST_PROCESS_BEFORE("0022"),
+    POWERUP_MODE_MUST_PROCESS_BEFORE("0023"),
+    INCORRECT_JACKPOT_CELL("0024"),
+    OUT_OF_SPIN_TURN("0025"),
+    INVALID_COMMAND("0026"),
+    INVALID_USERID("0027"),
+    EXPIRE_TIME("0028"),
+    USER_MAINTAINANCE("0029"),
+    WAITING_GLT("0030"),
+    EVENT_INVALID_ID("0031"),
+    EVENT_RESET_DAILY("0032"),
+    EVENT_ACTIVE_TIME("0033"),
+    EVENT_INACTIVE_TIME("0034"),
+    END_PS_EVENT("0035"),
+    NO_RESPIN("0036"),
+    EVENT_INIT_DAILY("0037"),
+    EVENT_START("0038"),
+    EVENT_STOP("0039"),
+    EVENT_AUTOLOAD("0040"),
+    EVENT_GLT("0041"),
+    PROMOTION_EXPIRE("0042"),
+    PROMOTION_RESET("0043"),
+    PROMOTION_NEW("0044"),
+    HAS_PLAYSESSION_CURR("0045"),
+    HAS_PROMOTION_CURR("0046"),
+    NOT_SUPPORT_CURR("0047"),
+    WALLET_UNEXPECTED("W2000"),
+    WALLET_USERID_NULL("W2001"),
+    WALLET_MONEY_INVALID("W2004"),
+    WALLET_NOTFOUND_USER("W2006"),
+    WALLET_LOCKED_USER("W2007"),
+    WALLET_CANNOT_CONNECT("W2008"),
+    WALLET_INVALID_ACTION("W2009"),
+    WALLET_TIMEOUT("W2408"),
+    WALLET_SERVER_ERROR("W2500"),
+    WALLET_NO_RESPONSE("W29999");
+    
+    private String errorCode;
+
+    SlotGameError(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+    
+    public static SlotGameError getValue(String value) {
+        for(SlotGameError e: SlotGameError.values()) {
+          if(e.errorCode.equals(value)) {
+            return e;
+          }
+        }
+        return null;// not found
+      }
+
+}

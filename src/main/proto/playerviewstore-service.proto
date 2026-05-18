@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+
+option java_multiple_files = true;
+option java_package = "com.io.begstd.slot.grpc.playerviewstoreservice";
+service PlayerViewStoreService {
+    rpc registerState (StateRegisterRequest) returns (ResponseStatus) {};
+    rpc getAllStateType (EmptyMessage) returns (ListStateRegisterRequest) {};
+    rpc subscribeJackpot (JackpotSubscriptionRequest) returns (ResponseStatus) {};
+    rpc getAllSubscribeJackpot (EmptyMessage) returns (ListJackpotSubscriptionRequest) {};
+    rpc addUserToGroup (AddUserToGroupRequest) returns (ResponseStatus) {};
+    rpc addUserToGroupTrial(AddUserToGroupRequest) returns (ResponseStatus) {};
+    rpc removeUserFromGroup (RemoveUserFromGroupRequest) returns (ResponseStatus) {};
+    rpc updateState (StateUpdateRequest) returns (ResponseStatus) {};
+    rpc updateLatestState (StateUpdateRequest) returns (ResponseStatus) {};
+    rpc updateMultiStates (MultiStateUpdateRequest) returns (ResponseStatus) {};
+    rpc clearState (StateClearRequest) returns (ResponseStatus) {};
+    rpc clearAllState (StateClearAllRequest) returns (ResponseStatus) {};
+    rpc pushState (StateRequest) returns (ResponseStatus) {};
+    rpc pushMultiState (MultiStatePushRequest) returns (ResponseStatus) {};
+    rpc pushError (ErrorRequest) returns (ResponseStatus) {};
+    rpc pushMessage (MessageRequest) returns (ResponseStatus) {};
+    rpc pushStateDirrectly (DirrectlyStatePush) returns (ResponseStatus) {};
+    rpc setMaxRetrySending(MaxRetrySending) returns (EmptyMessage) {};
+}
+
+message EmptyMessage {
+}
+
+message JackpotSubscriptionRequest {
+    string serviceId = 1;
+    repeated string jackpotIds = 2;
+}
+
+message ListJackpotSubscriptionRequest {
+    repeated JackpotSubscriptionRequest listJackpotSubscriptionRequest = 1;
+}
+
+message StateRegisterRequest {
+    string serviceId = 1;
+    repeated StateInfo stateInfos = 2;
+}
+message StateInfo {
+    string stateType = 1;
+    ChannelType channelType = 2;
+    uint32 interval = 3;
+    uint32 maxRetrySending = 4;
+}
+message ListStateRegisterRequest {
+    repeated StateRegisterRequest listStateRegisterRequest = 1;
+}
+message AddUserToGroupRequest {
+    string serviceId = 1;
+    string groupId = 2;
+    string userId = 3;
+    string commandId = 4;
+    repeated StateMetadata stateMetadatas = 5;
+    google.protobuf.Struct extendData = 16;
+}
+message StateMetadata {
+    string stateType = 1;
+    string objectId = 2;
+    google.protobuf.Struct metaData = 16;
+    string commandId = 17;
+}
+message RemoveUserFromGroupRequest {
+    string userId = 1;
+    string groupId = 2;
+    string serviceId = 3;
+    string commandId = 4;
+}
+
+message MultiStateUpdateRequest {
+    repeated StateUpdateRequest updateStates = 1;
+}
+
+message StateUpdateRequest {
+    string serviceId = 1;
+    string stateType = 2;
+    string objectId = 3;
+    google.protobuf.Struct state = 4;
+    string eventName = 5;
+}
+
+message StateClearRequest {
+    string serviceId = 1;
+    string stateType = 2;
+    string objectId = 3;
+}
+
+message StateClearAllRequest {
+    string serviceId = 1;
+    string stateType = 2;
+}
+
+message StateRequest {
+    string serviceId = 1;
+    string stateType = 2;
+    string objectId = 3;
+    string userId = 4;
+    string commandId = 16;
+}
+
+message MultiStatePushRequest {
+    string commandId = 1;
+    string userId = 2;
+    string serviceId = 3;
+    repeated StateMetadata multiStateMetaData = 4;
+}
+
+message ErrorRequest {
+    string serviceId = 1;
+    ChannelType channelType = 2;
+    string objectId = 3;
+    repeated Error errors = 4;
+}
+message Error {
+    string commandId = 1;
+    string code = 2;
+    google.protobuf.Struct metaData = 3;
+}
+
+message MessageRequest {
+    string serviceId = 1;
+    ChannelType channelType = 2;
+    string objectId = 3;
+    Message message = 4;
+}
+
+message Message {
+    string code = 1;
+    google.protobuf.Struct metaData = 2;
+}
+
+
+message ResponseStatus {
+    string code = 1;
+}
+
+message DirrectlyStatePush {
+    string serviceId = 1;
+    string event = 2;
+    ChannelType channelType = 3;
+    string receiver = 4;
+    google.protobuf.Struct data = 5;
+    repeated StateMetadata stateMetadatas = 6;
+}
+
+message MaxRetrySending {
+    string maxRetrySending = 1;
+}
+
+enum ChannelType {
+    PRIVATE = 0;
+    PRESENCE = 1;
+}

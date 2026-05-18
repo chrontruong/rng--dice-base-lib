@@ -1,0 +1,36 @@
+{
+  "serviceId": "9000",
+  "numOfBonusWonMini": 3,
+  "rangeRandom": 1000000,
+  "numPlayTotalInBonusGame": 3,
+  "bonusMatrixSize": 15,
+  "bonusGameTableFormat":[3,3,3,3,3],
+  "symbolMini": [
+    {
+      "id": 1,
+      "code": "A",
+      "name": "A",
+      "value": 100
+    },
+    {
+      "id": 2,
+      "code": "B",
+      "name": "B",
+      "value": 200
+    },
+    {
+      "id": 3,
+      "code": "C",
+      "name": "C",
+      "value": 400
+    },
+    {
+      "id": 4,
+      "code": "D",
+      "name": "Default value",
+      "value": -1
+    }
+    ],
+    
+  "baseMini":[ "A", "A", "A", "A", "A", "A", "A", "A", "B", "B", "B", "B", "C", "C", "C"]
+}

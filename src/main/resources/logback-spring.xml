@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds"
+    debug="true">
+
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml"
+        /> -->
+    <include
+        resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <statusListener
+        class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+    <property name="MY_LOG_PATTERN"
+        value="%highlight(%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ, GMT+7} %5p [%15.15t] %-36.36logger{35} [%X{un:-system} - %X{cid}] : %m%n%ex{5})" />
+    
+    <springProperty scope="context" name="LOG_PATH" source="logging.path"/>
+    <springProperty scope="context" name="MAX_HISTORY" source="logging.maxhistory"/>
+    <!-- kafka log -->
+    <springProperty scope="context" name="KAFKA_SERVER" source="spring.kafka.bootstrap-servers"/>
+    <springProperty scope="context" name="KAFKA_TOPIC" source="spring.kafka.template.default-topic"/>
+    <springProperty scope="context" name="KAFKA_BOT_TOPIC" source="spring.kafka.template.bot-topic"/>
+    <springProperty scope="context" name="KAFKA_PARTITION" source="spring.kafka.template.partition"/>
+
+    <appender name="reliable-kafka-appender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterLogToKafka" />
+        <encoder>
+            <!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <topic>${KAFKA_TOPIC}</topic>
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.HostNameKeyingStrategy" />
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" />
+        <producerConfig>bootstrap.servers=${KAFKA_SERVER}</producerConfig>
+        <partition>${KAFKA_PARTITION}</partition>
+        <!--
+        <producerConfig>security.protocol=${KAFKA_PROTOCOL}</producerConfig>
+        <producerConfig>sasl.mechanism=${KAFKA_SASL_MECHANISM}</producerConfig>
+         -->
+        <!-- don't wait for a broker to ack the reception of a batch.  -->
+        <producerConfig>acks=0</producerConfig>
+        <!-- wait up to 1000ms and collect log messages before sending them as a batch -->
+        <producerConfig>linger.ms=1000</producerConfig>
+        <!-- even if the producer buffer runs full, do not block the application but start to drop messages -->
+        <producerConfig>max.block.ms=0</producerConfig>
+        <producerConfig>compression.type=gzip</producerConfig>
+    </appender>
+
+    <appender name="reliable-kafka-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterLogToKafkaFile"/>
+        <file>${LOG_PATH}/kafka-slotgame-service.log</file>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/kafka-slotgame-service.%d{yyyy-MM-dd}.%i.log.zip
+            </fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="bot-reliable-kafka-appender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterBotLogToKafka" />
+        <encoder>
+            <!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
+            <pattern>%msg%n</pattern>
+        </encoder>
+        <topic>${KAFKA_BOT_TOPIC}</topic>
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.HostNameKeyingStrategy" />
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" />
+        <producerConfig>bootstrap.servers=${KAFKA_SERVER}</producerConfig>
+        <partition>${KAFKA_PARTITION}</partition>
+        <!--
+        <producerConfig>security.protocol=${KAFKA_PROTOCOL}</producerConfig>
+        <producerConfig>sasl.mechanism=${KAFKA_SASL_MECHANISM}</producerConfig>
+         -->
+        <!-- don't wait for a broker to ack the reception of a batch.  -->
+        <producerConfig>acks=0</producerConfig>
+        <!-- wait up to 1000ms and collect log messages before sending them as a batch -->
+        <producerConfig>linger.ms=1000</producerConfig>
+        <!-- even if the producer buffer runs full, do not block the application but start to drop messages -->
+        <producerConfig>max.block.ms=0</producerConfig>
+        <producerConfig>compression.type=gzip</producerConfig>
+    </appender>
+
+    <appender name="bot-reliable-kafka-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterBotLogToKafkaFile"/>
+        <file>${LOG_PATH}/bot-slotgame-service.log</file>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/bot-kafka-slotgame-service.%d{yyyy-MM-dd}.%i.log.zip
+            </fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="reliable-kafka-trial-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterLogToKafkaTrial"/>
+        <file>${LOG_PATH}/trial-slotgame-service.log</file>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/trial-slotgame-service.%d{yyyy-MM-dd}.%i.log.zip
+            </fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
+        </encoder>
+    </appender>
+    <!--  end kafka log -->
+    <appender name="stdout"
+        class="ch.qos.logback.core.ConsoleAppender">
+        <encoder
+            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${MY_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="roll-daily"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/slotgame-service.log</file>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/slotgame-service.%d{yyyy-MM-dd}.%i.log.zip
+            </fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${MY_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="roll-daily-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${LOG_PATH}/slotgame-service-error.log</file>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/slotgame-service-error.%d{yyyy-MM-dd}.%i.log.zip
+            </fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${MY_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    
+    <springProfile name="default,localhost,staging,local,test">
+        <logger name="org.springframework" level="ERROR" />
+        <logger name="com.io.begstd.slot" level="INFO" />
+    </springProfile>
+    <springProfile name="rtp">
+        <logger name="org.springframework" level="ERROR" />
+        <logger name="com.io.begstd.slot" level="ERROR" />
+    </springProfile>
+    <root level="INFO">
+        <appender-ref ref="stdout" />
+        <!-- Need to write to file, enable this option -->
+        <appender-ref ref="roll-daily" />
+        <appender-ref ref="roll-daily-error" />
+        <appender-ref ref="reliable-kafka-appender" />
+        <appender-ref ref="reliable-kafka-file" />
+        <appender-ref ref="reliable-kafka-trial-file" />
+        <appender-ref ref="bot-reliable-kafka-appender" />
+        <appender-ref ref="bot-reliable-kafka-file" />
+    </root>
+
+</configuration>

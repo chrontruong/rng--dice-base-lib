@@ -1,0 +1,100 @@
+name: Deploy to Pre-Production
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  deploy:
+    name: Deploy to Pre-Production
+    runs-on: ubuntu-latest
+    environment: preproduction
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: release
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11.0.27'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Configure Maven settings for Nexus
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml << EOF
+          <settings>
+            <servers>
+              <server>
+                <id>vortech-nexus</id>
+                <username>${NEXUS_USERNAME}</username>
+                <password>${NEXUS_PASSWORD}</password>
+              </server>
+            </servers>
+
+            <profiles>
+              <profile>
+                <id>vortech-nexus</id>
+                <repositories>
+                  <repository>
+                    <id>vortech-nexus</id>
+                    <name>Nexus Internal Releases</name>
+                    <url>${NEXUS_MAVEN_URL}</url>
+                    <releases>
+                      <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                      <enabled>false</enabled>
+                    </snapshots>
+                  </repository>
+                </repositories>
+              </profile>
+            </profiles>
+
+            <activeProfiles>
+              <activeProfile>vortech-nexus</activeProfile>
+            </activeProfiles>
+          </settings>
+          EOF
+        env:
+          NEXUS_MAVEN_URL: ${{ secrets.NEXUS_MAVEN_URL }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+
+      - name: Build JAR with Maven
+        run: mvn clean install
+
+      - name: Get JAR file name and version
+        id: jar
+        run: |
+          JAR_FILE=$(ls target/*.jar | head -1)
+          JAR_NAME=$(basename $JAR_FILE)
+          # Extract from pom.xml
+          GROUP_ID=$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)
+          ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          SUB_FIX="release"
+
+          echo "file=$JAR_FILE" >> $GITHUB_OUTPUT
+          echo "name=$JAR_NAME" >> $GITHUB_OUTPUT
+          echo "groupId=$GROUP_ID" >> $GITHUB_OUTPUT
+          echo "artifactId=$ARTIFACT_ID" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "sub_fix=$SUB_FIX" >> $GITHUB_OUTPUT
+
+      - name: Upload JAR to Nexus repository
+        run: |
+          mvn deploy:deploy-file \
+            -DgroupId="${{ steps.jar.outputs.groupId }}" \
+            -DartifactId="${{ steps.jar.outputs.artifactId }}" \
+            -Dversion="${{ steps.jar.outputs.version }}" \
+            -Dpackaging=jar \
+            -Dfile="${{ steps.jar.outputs.file }}" \
+            -DuniqueVersion=false \
+            -DrepositoryId=vortech-nexus \
+            -Durl="${{ secrets.NEXUS_URL }}/repository/${{ secrets.NEXUS_REPOSITORY_NAME }}-${{ steps.jar.outputs.sub_fix }}/"

@@ -1,0 +1,44 @@
+service:
+  maxSizeQueue: 1000
+  enableKafka: false
+  startTest: true
+  intervalCheckStartTestSeconds: 600
+  maxRetrySending: 3
+  jackpotHostName: localhost
+  jackpotHostPort: 4000
+  walletMapping[0]:
+    agent: client1
+    host: localhost
+    port: 7000
+  walletMapping[1]:
+    agent: client2
+    host: localhost
+    port: 7000
+  playerViewStoreHostName: localhost
+  playerViewStoreHostPort: 5000
+  intenalServiceType:
+    commandIdHistory: test
+    joingame: test
+    walletTrialModeService: test
+    jackpotTrialModeService: test
+  externalServiceType:
+    jackpotService: prod
+    walletService: prod
+    playViewStoreService: prod
+  internalServiceType:
+    joingame: test
+    walletTrialModeService: test
+    jackpotTrialModeService: test
+    rtpConfigService: test 
+    
+    
+#GRPC SERVER PORT
+grpc:
+  port: 6500
+  
+#TOMCAT SERVER PORT
+server:
+  port: 8090
+  servlet:
+    context-path: /slot
+    

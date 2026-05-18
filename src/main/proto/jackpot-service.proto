@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.io.begstd.slot.grpc.jackpotservice";
+
+service JackpotService {
+    rpc init (InitRequest) returns (ResponseStatusJP) {};
+    rpc getJackpots (JackpotRequest) returns (JackpotResponse) {};
+    rpc setJackpot (SetRequest) returns (ResponseStatusJP) {};
+    rpc getJackpot (GetJackpotRequest) returns (GetJackpotResponse) {};
+    rpc getMultiJackpot (GetMultiJackpotRequest) returns (GetMultiJackpotResponse) {};
+
+    rpc plus (PlusRequest) returns (ResponseStatusJP) {};
+    rpc plusMultipleJackpots (MultiplePlusRequest) returns (ResponseStatusJP) {};
+    rpc plusMultipleJackpotsWithLevel (MultiplePlusRequest) returns (ResponseStatusJP) {};
+
+    rpc plusWithAmount (PlusRequest) returns (JackpotResponseStatus) {};
+    rpc plusMultipleJackpotsWithAmount (MultiplePlusRequest) returns (JackpotMultiResponseStatus) {};
+
+    rpc award (AwardRequest) returns (AwardResponse) {};
+    rpc awardMultipleJackpots (AwardsRequest) returns (AwardsResponse) {};
+    rpc awardPartialMultipleJackpots (AwardsPartialRequest) returns (AwardsPartialResponse) {};
+}
+
+message InitRequest {
+    string commandId = 1;
+    string serviceId = 2;
+    repeated JackpotInfo jackpotInfos = 3;
+    string extServiceId = 16;
+}
+
+message JackpotInfo {
+    string jackpotId = 1;
+    double amount = 2;
+    int32 level = 3;
+    string currency = 4;
+}
+
+message ResponseStatusJP {
+    string code = 1;
+}
+
+message JackpotRequest {}
+
+message JackpotResponse {
+    string data = 1;
+}
+
+message SetRequest {
+    string serviceId = 1;
+    JackpotInfo jackpotInfo = 2;
+    string extServiceId = 16;
+}
+
+message GetJackpotRequest {
+    string jackpotId = 1;
+}
+
+message GetJackpotResponse {
+    string jackpotId = 1;
+    double amount = 2;
+    repeated string serviceIds = 3;
+}
+
+message GetMultiJackpotRequest {
+    repeated string jackpotIds = 1;
+}
+
+message GetMultiJackpotResponse {
+    repeated GetJackpotResponse data = 1;
+}
+
+
+message PlusRequest {
+    string commandId = 1;
+    string jackpotId = 2;
+    double amount = 3;
+}
+
+message MultiplePlusRequest {
+    string commandId = 1;
+    repeated JackpotInfo jackpotInfos = 2;
+}
+
+message JackpotResponseStatus {
+    string code = 1;
+    double amount = 2;
+}
+
+message JackpotMultiResponseStatus {
+    string code = 1;
+    repeated JackpotInfo totalJackpotInfos = 2;
+}
+
+message AwardRequest {
+    string commandId = 1;
+    string jackpotId = 2;
+    double amount = 3;
+    int32 level = 4;
+}
+
+message AwardResponse {
+    string code = 1;
+    double amount = 2;
+    string jackpotId = 3;
+    int32 level = 4;
+}
+
+message AwardsRequest {
+    string commandId = 1;
+    repeated JackpotInfo jackpotInfos = 2;
+}
+
+message AwardsResponse {
+    string code = 1;
+    repeated JackpotInfo awardsResp = 2;
+}
+
+message AwardsPartialRequest {
+    string commandId = 1;
+    repeated JackpotAwardPartialRequest jackpotAwardPartials = 2;
+}
+
+message JackpotAwardPartialRequest {
+    string jackpotId = 1;
+    double awardPercent = 2; // 30% => 0.3
+    double minInitAmount = 3;
+}
+
+message AwardsPartialResponse {
+    string code = 1;
+    repeated JackpotAwardsPartialResponse awardsResp = 2;
+}
+
+message JackpotAwardsPartialResponse {
+    string jackpotId = 1;
+    double wonAmount = 2;
+    double remainAmount = 3;
+    int32 level = 4;
+}

@@ -1,0 +1,405 @@
+{
+  "serviceId": "9000",
+  "wonRulesName": ["line","countRandomScater","jackpotLine","freeGameRandom","bonusGameRandom"],
+  "totalPercent": 100,
+  "isWinFullLine": false,
+  "totalCredit": 20,
+  "intervalGame": 1,
+  "reelCheckForFreeGame": [],
+  "reelCheckForBonusGame": [],
+  "reelCheckForLightningGame": [],
+  "reelCheckForPowerUpGame": [],
+  "numSymbolWinFreeGame": 3,
+  "numSymbolWinBonusGame": 3,
+  "numPlayTotalInBonusGame": 3,
+  "numSymbolWinLightningGame": 6,
+  "numPlayTotalInLightningGame": 3,
+  "jackpotLineSize": 5,
+    "initJackpotList": [
+    {
+      "id": 1,
+      "code": "_GRAND",
+      "initAmount":10000,
+      "progressive": 1
+    }
+  ],
+  "denominationLevels": [
+    {
+      "id": 1,
+      "amount": 5,
+      "jackpotID": "SB_JP_1",
+      "env":[1,2]
+    },
+    {
+      "id": 2,
+      "amount": 10,
+      "jackpotID": "SB_JP_2",
+      "env":[1,2]
+    },
+    {
+      "id": 3,
+      "amount": 15,
+      "jackpotID": "SB_JP_3",
+      "env":[1,2]
+    },
+    {
+      "id": 4,
+      "amount": 20,
+      "jackpotID": "SB_JP_4",
+      "env":[1,2]
+    },
+    {
+      "id": 5,
+      "amount": 25,
+      "jackpotID": "SB_JP_5",
+      "env":[1,2]
+    },
+    {
+      "id": 6,
+      "amount": 50,
+      "jackpotID": "SB_JP_6",
+      "env":[1,2]
+    }
+  ],
+  "symbols": [
+    {
+      "id": 1,
+      "code": "K",
+      "name": "Wild",
+      "type": "WILD"
+    },
+    {
+      "id": 2,
+      "code": "2",
+      "name": "Code2",
+      "type": "SYMBOL",
+      "paytable" : [0, 2, 40, 200, 1000]
+    },
+    {
+      "id": 3,
+      "code": "3",
+      "name": "Code3",
+      "type": "SYMBOL",
+      "paytable" : [0, 0, 30, 100, 400]
+    },
+    {
+      "id": 4,
+      "code": "4",
+      "name": "Code4",
+      "type": "SYMBOL",
+      "paytable" : [0, 0, 30, 100, 400]
+    },
+    {
+      "id": 5,
+      "code": "5",
+      "name": "Code5",
+      "type": "SYMBOL",
+      "paytable" : [0, 0, 20, 100, 250]
+    },
+    {
+      "id": 6,
+      "code": "6",
+      "name": "Code6",
+      "type": "SYMBOL",
+      "paytable" : [0, 0, 20, 100, 250]
+    },
+    {
+      "id": 7,
+      "code": "7",
+      "name": "Code7",
+      "type": "SYMBOL",
+      "paytable" : [0, 0, 10, 35, 200]
+    },
+    {
+      "id": 8,
+      "code": "8",
+      "name": "Code8",
+      "type": "SYMBOL",
+      "paytable" : [0, 0, 5, 30, 150]
+    },
+    {
+      "id": 9,
+      "code": "9",
+      "name": "Code9",
+      "type": "SYMBOL",
+      "paytable" : [0, 0, 5, 30, 150]
+    },
+    {
+      "id": 10,
+      "code": "10",
+      "name": "Code10",
+      "type": "SYMBOL",
+      "paytable" : [0, 0, 5, 20, 50]
+    },
+    {
+      "id": 11,
+      "code": "J",
+      "name": "CodeJ",
+      "type": "SYMBOL",
+      "paytable" : [0, 0, 5, 20, 50]
+    },
+    {
+      "id": 12,
+      "code": "R",
+      "name": "Bonus Game",
+      "type": "BONUS",
+      "paytable" : [0, 0, 1, 1, 1]
+    },
+    {
+      "id": 13,
+      "code": "A",
+      "name": "Scatter",
+      "type": "SCATTER",
+      "paytable" : [0, 0, 40, 100, 200],
+      "freespin" : [0, 0, 5, 10, 20]
+    }
+  ],
+  "freeSpinConfig":[
+    {
+     "id": 1,
+     "freespin":1
+    },
+    {
+     "id": 2,
+     "freespin":1,
+     "wildnbr":[7, 6, 5, 4],
+     "wildrand":[0, 25, 50, 75, 100]
+    },
+    {
+     "id": 3,
+     "freespin":1,
+     "wildnbr":[7, 6, 5, 4],
+     "wildrand":[0, 25, 50, 75, 100],
+     "multiple": [3, 2],
+     "multiplerand": [0, 50, 100]
+    },
+    {
+     "id": 4,
+     "freespin":1,
+     "wildnbr":[7, 6, 5, 4],
+     "wildrand":[0, 25, 50, 75, 100],
+     "multiple": [8, 7, 6, 5, 4],
+     "multiplerand": [0, 20, 40, 60, 80, 100]
+    },
+    {
+     "id": 5,
+     "freespin":1,
+     "wildnbr":[7, 6, 5, 4],
+     "wildrand":[0, 25, 50, 75, 100],
+     "multiple": [18, 16, 14, 12, 10],
+     "multiplerand": [0, 20, 40, 60, 80, 100]
+   }
+  ],
+  "payLines": [
+        {
+      "id": 1,
+      "verifyView": [
+        [0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0]
+      ]
+    },
+    {
+      "id": 2,
+      "verifyView": [
+        [1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0]
+      ]
+    },
+    {
+      "id": 3,
+      "verifyView": [
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 1]
+      ]
+    },
+    {
+      "id": 4,
+      "verifyView": [
+        [1, 0, 0, 0, 1],
+        [0, 1, 0, 1, 0],
+        [0, 0, 1, 0, 0]
+      ]
+    },
+    {
+      "id": 5,
+      "verifyView": [
+        [0, 0, 1, 0, 0],
+        [0, 1, 0, 1, 0],
+        [1, 0, 0, 0, 1]
+      ]
+    },
+    {
+      "id": 6,
+      "verifyView": [
+        [0, 1, 0, 1, 0],
+        [1, 0, 1, 0, 1],
+        [0, 0, 0, 0, 0]
+      ]
+    },
+    {
+      "id": 7,
+      "verifyView": [
+        [0, 0, 0, 0, 0],
+        [1, 0, 1, 0, 1],
+        [0, 1, 0, 1, 0]
+      ]
+    },
+    {
+      "id": 8,
+      "verifyView": [
+        [1, 0, 1, 0, 1],
+        [0, 1, 0, 1, 0],
+        [0, 0, 0, 0, 0]
+      ]
+    },
+    {
+      "id": 9,
+      "verifyView": [
+        [0, 0, 0, 0, 0],
+        [0, 1, 0, 1, 0],
+        [1, 0, 1, 0, 1]
+      ]
+    },
+    {
+      "id": 10,
+      "verifyView": [
+        [0, 1, 1, 1, 0],
+        [1, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0]
+      ]
+    },
+    {
+      "id": 11,
+      "verifyView": [
+        [0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 1],
+        [0, 1, 1, 1, 0]
+      ]
+    },
+    {
+      "id": 12,
+      "verifyView": [
+        [0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [1, 1, 0, 1, 1]
+      ]
+    },
+    {
+      "id": 13,
+      "verifyView": [
+        [1, 1, 0, 1, 1],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0]
+      ]
+    },
+    {
+      "id": 14,
+      "verifyView": [
+        [0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [1, 0, 0, 0, 1]
+      ]
+    },
+    {
+      "id": 15,
+      "verifyView": [
+        [1, 0, 0, 0, 1],
+        [0, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0]
+      ]
+    },
+    {
+      "id": 16,
+      "verifyView": [
+        [1, 0, 1, 0, 1],
+        [0, 0, 0, 0, 0],
+        [0, 1, 0, 1, 0]
+      ]
+    },
+    {
+      "id": 17,
+      "verifyView": [
+        [0, 1, 0, 1, 0],
+        [0, 0, 0, 0, 0],
+        [1, 0, 1, 0, 1]
+      ]
+    },
+    {
+      "id": 18,
+      "verifyView": [
+        [0, 0, 1, 0, 0],
+        [1, 1, 0, 1, 1],
+        [0, 0, 0, 0, 0]
+      ]
+    },
+    {
+      "id": 19,
+      "verifyView": [
+        [0, 0, 0, 0, 0],
+        [1, 1, 0, 1, 1],
+        [0, 0, 1, 0, 0]
+      ]
+    },
+    {
+      "id": 20,
+      "verifyView": [
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0],
+        [1, 1, 0, 1, 1]
+      ]
+    }
+  ],
+  "defineMatrixFormatRule" : "",
+  "listPreGenerateMatrixRule" : [
+  ],
+  "listReelConfig" : [
+    {
+      "reelIdx" : 0,
+      "size" : 3,
+      "rule" : "randomByBaseReelRule"
+    },
+    {
+      "reelIdx" : 1,
+      "size" : 3,
+      "rule" : "randomByBaseReelRule"
+    },
+    {
+      "reelIdx" : 2,
+      "size" : 3,
+      "rule" : "randomByBaseReelRule"
+    },
+    {
+      "reelIdx" : 3,
+      "size" : 3,
+      "rule" : "randomByBaseReelRule"
+    },
+    {
+      "reelIdx" : 4,
+      "size" : 3,
+      "rule" : "randomByBaseReelRule"
+    }
+  ],
+ "listTransformMatrixConfig" : [
+   {
+     "name" : "expandWildOnReelTransformRule",
+     "reelChangeWild" : [1,3]
+   }
+  ],
+  "baseReel": [
+    ["K", "2", "3", "3", "4", "4", "5", "5", "5", "6", "6", "7", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"],
+    ["K", "2", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"],
+    ["K", "2", "2", "3", "3", "4", "4", "5", "5", "5", "6", "6", "6", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"],
+    ["K", "2", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"],
+    ["K", "2", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"]
+  ],
+  "baseReelTrial": [
+    ["K", "2", "3", "3", "4", "4", "5", "5", "5", "6", "6", "7", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"],
+    ["K", "2", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"],
+    ["K", "2", "2", "3", "3", "4", "4", "5", "5", "5", "6", "6", "6", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"],
+    ["K", "2", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"],
+    ["K", "2", "2", "3", "3", "4", "4", "5", "5", "6", "6", "7", "7", "7", "8", "8", "8", "9", "9", "9", "10", "10", "10", "10", "J", "J", "J", "J", "R", "A"]
+  ]
+}

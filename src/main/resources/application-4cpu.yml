@@ -1,0 +1,8 @@
+#GRPC SERVER PORT
+grpc:
+  pool:
+    core: 4
+    maximum: 32
+    keepAlive: 60
+    queue: 10000
+
