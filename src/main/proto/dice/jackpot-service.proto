@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.io.begstd.dice.grpc.jackpotservice";
+
+service DiceJackpotService {
+    rpc init (InitDiceRequest) returns (DiceResponseStatusJP) {};
+    rpc getJackpots (DiceJackpotRequest) returns (DiceJackpotResponse) {};
+    rpc setJackpot (SetDiceRequest) returns (DiceResponseStatusJP) {};
+    rpc getJackpot (GetDiceJackpotRequest) returns (GetDiceJackpotResponse) {};
+    rpc getMultiJackpot (GetMultiDiceJackpotRequest) returns (GetMultiDiceJackpotResponse) {};
+
+    rpc plus (PlusDiceRequest) returns (DiceResponseStatusJP) {};
+    rpc plusMultipleJackpots (MultiplePlusDiceRequest) returns (DiceResponseStatusJP) {};
+    rpc plusMultipleJackpotsWithLevel (MultiplePlusDiceRequest) returns (DiceResponseStatusJP) {};
+
+    rpc plusWithAmount (PlusDiceRequest) returns (DiceJackpotResponseStatus) {};
+    rpc plusMultipleJackpotsWithAmount (MultiplePlusDiceRequest) returns (DiceJackpotMultiResponseStatus) {};
+
+    rpc award (DiceAwardRequest) returns (DiceAwardResponse) {};
+    rpc awardMultipleJackpots (DiceAwardsRequest) returns (DiceAwardsResponse) {};
+    rpc awardPartialMultipleJackpots (DiceAwardsPartialRequest) returns (DiceAwardsPartialResponse) {};
+}
+
+message InitDiceRequest {
+    string commandId = 1;
+    string serviceId = 2;
+    repeated DiceJackpotInfo jackpotInfos = 3;
+    string extServiceId = 16;
+}
+
+message DiceJackpotInfo {
+    string jackpotId = 1;
+    double amount = 2;
+    int32 level = 3;
+    string currency = 4;
+}
+
+message DiceResponseStatusJP {
+    string code = 1;
+}
+
+message DiceJackpotRequest {}
+
+message DiceJackpotResponse {
+    string data = 1;
+}
+
+message SetDiceRequest {
+    string serviceId = 1;
+    DiceJackpotInfo jackpotInfo = 2;
+    string extServiceId = 16;
+}
+
+message GetDiceJackpotRequest {
+    string jackpotId = 1;
+}
+
+message GetDiceJackpotResponse {
+    string jackpotId = 1;
+    double amount = 2;
+    repeated string serviceIds = 3;
+}
+
+message GetMultiDiceJackpotRequest {
+    repeated string jackpotIds = 1;
+}
+
+message GetMultiDiceJackpotResponse {
+    repeated GetDiceJackpotResponse data = 1;
+}
+
+
+message PlusDiceRequest {
+    string commandId = 1;
+    string jackpotId = 2;
+    double amount = 3;
+}
+
+message MultiplePlusDiceRequest {
+    string commandId = 1;
+    repeated DiceJackpotInfo jackpotInfos = 2;
+}
+
+message DiceJackpotResponseStatus {
+    string code = 1;
+    double amount = 2;
+}
+
+message DiceJackpotMultiResponseStatus {
+    string code = 1;
+    repeated DiceJackpotInfo totalJackpotInfos = 2;
+}
+
+message DiceAwardRequest {
+    string commandId = 1;
+    string jackpotId = 2;
+    double amount = 3;
+    int32 level = 4;
+}
+
+message DiceAwardResponse {
+    string code = 1;
+    double amount = 2;
+    string jackpotId = 3;
+    int32 level = 4;
+}
+
+message DiceAwardsRequest {
+    string commandId = 1;
+    repeated DiceJackpotInfo jackpotInfos = 2;
+}
+
+message DiceAwardsResponse {
+    string code = 1;
+    repeated DiceJackpotInfo awardsResp = 2;
+}
+
+message DiceAwardsPartialRequest {
+    string commandId = 1;
+    repeated DiceJackpotAwardPartialRequest jackpotAwardPartials = 2;
+}
+
+message DiceJackpotAwardPartialRequest {
+    string jackpotId = 1;
+    double awardPercent = 2; // 30% => 0.3
+    double minInitAmount = 3;
+}
+
+message DiceAwardsPartialResponse {
+    string code = 1;
+    repeated DiceJackpotAwardsPartialResponse awardsResp = 2;
+}
+
+message DiceJackpotAwardsPartialResponse {
+    string jackpotId = 1;
+    double wonAmount = 2;
+    double remainAmount = 3;
+    int32 level = 4;
+}

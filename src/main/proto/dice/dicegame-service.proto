@@ -1,0 +1,177 @@
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+import "dice/promotion-service.proto";
+option java_multiple_files = true;
+option java_package = "com.io.begstd.dice.grpc.dicegame";
+
+service DiceGameService {
+    rpc normalSpin (DiceNormalSpin) returns (DiceResponseStatusSG) {};
+
+    rpc joinGame(DicePlayerInfo) returns (DiceResponseStatusSG) {};
+    rpc joinGameEvent(DicePlayerEventInfo) returns (DiceResponseStatusSG) {};
+    rpc leaveGame(DicePlayerInfo) returns (DiceResponseStatusSG) {};
+
+    rpc joinGameTrial(DicePlayerTrialInfo) returns (DiceResponseStatusSG) {};
+    rpc normalSpinTrial (DiceNormalSpin) returns (DiceResponseStatusSG) {};
+
+    rpc getLatestState (DiceGetLatestStateRequest) returns (DiceResponseStatusSG){};
+    rpc setGroupUsersMaintain (DiceGroupUsersMaintainRequest) returns (DiceResponseStatusSGBO) {};
+    rpc updateUserLevel (DiceUserLevelRequest) returns (DiceResponseStatusSGBO) {};
+
+    rpc playerActive(DicePlayerActiveRequest) returns (DiceResponseStatusSG) {};
+    rpc gltEvent(DiceGltEventInfo) returns (DiceResponseStatusSG) {};
+
+
+    rpc vsDiceNormalSpin (VSDiceNormalSpin) returns (DiceResponseStatusSG) {};
+    rpc vsGetPayout (VSDicePayoutReq) returns (DiceResponseStatusSG) {};
+
+    rpc leaveGameTrial(DicePlayerInfo) returns (DiceResponseStatusSG) {};
+}
+
+message DiceExtensionReloadRequest {
+    repeated string sourceFiles = 1;
+    repeated DiceExtensionModel extensionModels = 2 ;
+}
+
+message DiceExtensionModel {
+    string type = 1;
+    repeated string qualifyNames = 2;
+}
+
+message DicePlayerTrialInfo {
+    string sId = 1;
+    string uId = 2;
+    string cId = 3;
+    DiceUserJoinGameDetail ud = 16;
+    int32 env = 17;
+    string ssid = 18;
+}
+
+message DicePlayerInfo {
+    string sId = 1;
+    string uId = 2;
+    string cId = 3;
+    int32 env = 4;
+    DicePromotionData promotionData = 5;
+    DiceUserJoinGameDetail ud = 16;
+    string c = 17;
+    string ssid = 18;
+}
+
+message DicePlayerEventInfo {
+    string sId = 1;
+    string uId = 2;
+    string cId = 3;
+    int32 env = 4;
+    DiceUserJoinGameDetail ud = 16;
+    string c = 17;
+    string eId = 18;
+    string ssid = 19;
+}
+
+message DiceNormalSpin {
+    string uId = 1;
+    string cId = 2;
+    string bId = 3;
+    double talB = 16;
+    repeated int32 bLn = 17;
+    DiceUserJoinGameDetail ud = 18;
+    int32 wo = 19;
+    int32 env = 20;
+    string ssid = 21;
+    repeated int32 opts = 22;
+    string l = 23;
+    string iOdd = 24;
+}
+
+message DiceGetLatestStateRequest {
+    string cId = 1;
+    string uId = 2;
+    DiceUserJoinGameDetail ud = 16;
+}
+
+message DiceResponseStatusSG {
+    string c = 1;
+    google.protobuf.Struct st = 2;
+}
+
+message DiceResponseStatusSGBO {
+    string code = 1;
+    google.protobuf.Struct state = 2;
+}
+
+message DiceUserJoinGameDetail {
+    double money = 1;
+    double extraMoney = 2;
+    string displayName = 3;
+    string fullname = 4;
+    string email = 5;
+    string phone = 6;
+    string address = 7;
+    string birthday = 8;
+    string country = 9;
+    string gender = 10;
+    string avatar = 11;
+    string registerIp = 12;
+    string ip = 13;
+    string os = 14;
+    string device = 15;
+    string browser = 16;
+    repeated string denyGameIds = 17;
+    string userType = 18;
+    string userAgent = 19;
+    string agencyId = 20;
+    string memberId = 21;
+    string externalId = 22;
+    string userBrand = 23;
+    string level = 24;
+    repeated DICE_WALLET_TYPE walletType = 25;
+    string currency = 26;
+}
+
+message DiceGroupUsersMaintainRequest {
+    bool maintain = 1;
+    string prefix = 2;
+}
+
+message DiceUserLevelRequest {
+    string userId = 1;
+    string level = 2;
+}
+
+message DicePlayerActiveRequest {
+    string cId = 1;
+    string uId = 2;
+}
+
+message DiceGltEventInfo {
+    string uId = 1;
+    string cId = 2;
+    DiceUserJoinGameDetail ud = 16;
+}
+
+enum DICE_WALLET_TYPE {
+    DICE_MAIN_BALANCE = 0;
+    DICE_PROMOTION_BALANCE = 1;
+}
+
+message VSDiceNormalSpin {
+    string uId = 1;
+    string cId = 2;
+    string bId = 3;
+    repeated string bLns = 16;
+    DiceUserJoinGameDetail ud = 17;
+    int32 wo = 18;
+    int32 env = 19;
+    string ssid = 20;
+    int32 mo = 21;
+    string gn = 22;
+}
+
+message VSDicePayoutReq {
+    string uId = 1;
+    string cId = 2;
+    int32 cOp = 3;
+    DiceUserJoinGameDetail ud = 16;
+}

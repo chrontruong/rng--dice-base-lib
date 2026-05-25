@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+
+option java_multiple_files = true;
+option java_package = "com.io.begstd.dice.grpc.promotionservice";
+
+service DicePromotionService {
+    // call when client join game.
+    rpc usePromotionCode(DiceUsePromotionCodeRequest) returns (DicePromotionResponse);
+    // call to check whether user has promotion code in specific serviceId or not.
+    rpc checkUserHasPromotion (DiceCheckPromotiontRequest) returns (DicePromotionResponse);
+    // call when user use this promotion to spin slot game
+    rpc minusPromotionData (DiceMinusPromotionDataRequest) returns (DicePromotionResponse);
+    rpc reservePromotionData (DiceReservePromotionDataRequest) returns (DicePromotionResponse);
+    rpc commitPromotionData (DiceCommitPromotionDataRequest) returns (DicePromotionResponse);
+    rpc releasePromotionData (DiceReleasePromotionDataRequest) returns (DicePromotionResponse);
+
+    rpc reserveAllPromotionData (DiceReserveAllPromotionDataRequest) returns (DicePromotionResponse);
+
+    rpc checkServiceHasPromotion(DiceCheckServiceHasPromotionRequest) returns (DiceCheckServiceHasPromotionResponse);
+}
+
+message DiceCheckServiceHasPromotionRequest {
+    string serviceId = 1;
+    string commandId = 2;
+}
+
+message DiceCheckServiceHasPromotionResponse {
+    bool result = 1;
+}
+
+message DiceUsePromotionCodeRequest {
+    string code = 1;
+    string userId = 2;
+    string serviceId = 3;
+    string commandId = 4;
+    string currency = 5;
+}
+
+message DiceCheckPromotiontRequest {
+    string userId = 1;
+    string serviceId = 2;
+    string commandId = 3;
+    string currency = 4;
+}
+
+message DiceMinusPromotionDataRequest {
+    string promotionCode = 1;
+    string userId = 2;
+    string serviceId = 3;
+    string commandId = 4;
+    string currency = 5;
+}
+
+message DiceReservePromotionDataRequest {
+    string promotionCode = 1;
+    string userId = 2;
+    string serviceId = 3;
+    int32 numberSpin = 4; // number of spin want to reserve (slot: numberSpin = 1)
+    string commandId = 5;
+    string currency = 6;
+}
+
+message DiceReserveAllPromotionDataRequest {
+    string promotionCode = 1;
+    string userId = 2;
+    string serviceId = 3;
+    string commandId = 4;
+    string currency = 5;
+}
+
+message DiceCommitPromotionDataRequest {
+    string promotionCode = 1;
+    string userId = 2;
+    string serviceId = 3;
+    int32 numberSpin = 4; // number of spin want to commit (slot: numberSpin = 1)
+    string commandId = 5;
+    string currency = 6;
+}
+
+message DiceReleasePromotionDataRequest {
+    string promotionCode = 1;
+    string userId = 2;
+    string serviceId = 3;
+    int32 numberSpin = 4; // number of spin want to release (slot: numberSpin = 1)
+    string commandId = 5;
+    string currency = 6;
+}
+
+message DicePromotionResponse {
+    string commandId = 1;
+    int32 code = 2; // status of response, 0 for success
+    string message = 3; // message to describe the code above.
+    DicePromotionData promotionData = 4;
+}
+
+message DicePromotionData {
+    string userId = 1;
+    string promotionCode = 2;
+    string promotionName = 3;
+    bool   isValid = 4;
+    string serviceId = 5;
+    int64 expireAt = 6;
+    google.protobuf.Struct data = 7; //{betid: 10, remain: 5}
+    string currency = 8;
+}

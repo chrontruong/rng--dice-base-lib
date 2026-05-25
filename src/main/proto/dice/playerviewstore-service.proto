@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+
+option java_multiple_files = true;
+option java_package = "com.io.begstd.dice.grpc.playerviewstoreservice";
+service DicePlayerViewStoreService {
+    rpc registerState (DiceStateRegisterRequest) returns (DiceResponseStatus) {};
+    rpc getAllStateType (DiceEmptyMessage) returns (DiceListStateRegisterRequest) {};
+    rpc subscribeJackpot (DiceJackpotSubscriptionRequest) returns (DiceResponseStatus) {};
+    rpc getAllSubscribeJackpot (DiceEmptyMessage) returns (ListDiceJackpotSubscriptionRequest) {};
+    rpc addUserToGroup (DiceAddUserToGroupRequest) returns (DiceResponseStatus) {};
+    rpc addUserToGroupTrial(DiceAddUserToGroupRequest) returns (DiceResponseStatus) {};
+    rpc removeUserFromGroup (DiceRemoveUserFromGroupRequest) returns (DiceResponseStatus) {};
+    rpc updateState (DiceStateUpdateRequest) returns (DiceResponseStatus) {};
+    rpc updateLatestState (DiceStateUpdateRequest) returns (DiceResponseStatus) {};
+    rpc updateMultiStates (DiceMultiStateUpdateRequest) returns (DiceResponseStatus) {};
+    rpc clearState (DiceStateClearRequest) returns (DiceResponseStatus) {};
+    rpc clearAllState (DiceStateClearAllRequest) returns (DiceResponseStatus) {};
+    rpc pushState (DiceStateRequest) returns (DiceResponseStatus) {};
+    rpc pushMultiState (DiceMultiStatePushRequest) returns (DiceResponseStatus) {};
+    rpc pushError (DiceErrorRequest) returns (DiceResponseStatus) {};
+    rpc pushMessage (DiceMessageRequest) returns (DiceResponseStatus) {};
+    rpc pushStateDirrectly (DiceDirrectlyStatePush) returns (DiceResponseStatus) {};
+    rpc setMaxRetrySending(DiceMaxRetrySending) returns (DiceEmptyMessage) {};
+}
+
+message DiceEmptyMessage {
+}
+
+message DiceJackpotSubscriptionRequest {
+    string serviceId = 1;
+    repeated string jackpotIds = 2;
+}
+
+message ListDiceJackpotSubscriptionRequest {
+    repeated DiceJackpotSubscriptionRequest listJackpotSubscriptionRequest = 1;
+}
+
+message DiceStateRegisterRequest {
+    string serviceId = 1;
+    repeated DiceStateInfo stateInfos = 2;
+}
+message DiceStateInfo {
+    string stateType = 1;
+    DiceChannelType channelType = 2;
+    uint32 interval = 3;
+    uint32 maxRetrySending = 4;
+}
+message DiceListStateRegisterRequest {
+    repeated DiceStateRegisterRequest listStateRegisterRequest = 1;
+}
+message DiceAddUserToGroupRequest {
+    string serviceId = 1;
+    string groupId = 2;
+    string userId = 3;
+    string commandId = 4;
+    repeated DiceStateMetadata stateMetadatas = 5;
+    google.protobuf.Struct extendData = 16;
+}
+message DiceStateMetadata {
+    string stateType = 1;
+    string objectId = 2;
+    google.protobuf.Struct metaData = 16;
+    string commandId = 17;
+}
+message DiceRemoveUserFromGroupRequest {
+    string userId = 1;
+    string groupId = 2;
+    string serviceId = 3;
+    string commandId = 4;
+}
+
+message DiceMultiStateUpdateRequest {
+    repeated DiceStateUpdateRequest updateStates = 1;
+}
+
+message DiceStateUpdateRequest {
+    string serviceId = 1;
+    string stateType = 2;
+    string objectId = 3;
+    google.protobuf.Struct state = 4;
+    string eventName = 5;
+}
+
+message DiceStateClearRequest {
+    string serviceId = 1;
+    string stateType = 2;
+    string objectId = 3;
+}
+
+message DiceStateClearAllRequest {
+    string serviceId = 1;
+    string stateType = 2;
+}
+
+message DiceStateRequest {
+    string serviceId = 1;
+    string stateType = 2;
+    string objectId = 3;
+    string userId = 4;
+    string commandId = 16;
+}
+
+message DiceMultiStatePushRequest {
+    string commandId = 1;
+    string userId = 2;
+    string serviceId = 3;
+    repeated DiceStateMetadata multiStateMetaData = 4;
+}
+
+message DiceErrorRequest {
+    string serviceId = 1;
+    DiceChannelType channelType = 2;
+    string objectId = 3;
+    repeated DiceError errors = 4;
+}
+message DiceError {
+    string commandId = 1;
+    string code = 2;
+    google.protobuf.Struct metaData = 3;
+}
+
+message DiceMessageRequest {
+    string serviceId = 1;
+    DiceChannelType channelType = 2;
+    string objectId = 3;
+    DiceMessage message = 4;
+}
+
+message DiceMessage {
+    string code = 1;
+    google.protobuf.Struct metaData = 2;
+}
+
+
+message DiceResponseStatus {
+    string code = 1;
+}
+
+message DiceDirrectlyStatePush {
+    string serviceId = 1;
+    string event = 2;
+    DiceChannelType channelType = 3;
+    string receiver = 4;
+    google.protobuf.Struct data = 5;
+    repeated DiceStateMetadata stateMetadatas = 6;
+}
+
+message DiceMaxRetrySending {
+    string maxRetrySending = 1;
+}
+
+enum DiceChannelType {
+    DICE_PRIVATE = 0;
+    DICE_PRESENCE = 1;
+}
