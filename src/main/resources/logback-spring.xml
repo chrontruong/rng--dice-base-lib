@@ -22,7 +22,7 @@
     <springProperty scope="context" name="KAFKA_PARTITION" source="spring.kafka.template.partition"/>
 
     <appender name="reliable-kafka-appender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
-        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterLogToKafka" />
+        <filter class="com.io.begstd.dice.utils.kafka.impl.FilterLogToKafka" />
         <encoder>
             <!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
             <pattern>%msg%n</pattern>
@@ -46,11 +46,11 @@
     </appender>
 
     <appender name="reliable-kafka-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterLogToKafkaFile"/>
-        <file>${LOG_PATH}/kafka-slotgame-service.log</file>
+        <filter class="com.io.begstd.dice.utils.kafka.impl.FilterLogToKafkaFile"/>
+        <file>${LOG_PATH}/kafka-dicegame-service.log</file>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/kafka-slotgame-service.%d{yyyy-MM-dd}.%i.log.zip
+            <fileNamePattern>${LOG_PATH}/kafka-dicegame-service.%d{yyyy-MM-dd}.%i.log.zip
             </fileNamePattern>
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
@@ -65,7 +65,7 @@
     </appender>
 
     <appender name="bot-reliable-kafka-appender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
-        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterBotLogToKafka" />
+        <filter class="com.io.begstd.dice.utils.kafka.impl.FilterBotLogToKafka" />
         <encoder>
             <!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
             <pattern>%msg%n</pattern>
@@ -89,11 +89,11 @@
     </appender>
 
     <appender name="bot-reliable-kafka-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterBotLogToKafkaFile"/>
-        <file>${LOG_PATH}/bot-slotgame-service.log</file>
+        <filter class="com.io.begstd.dice.utils.kafka.impl.FilterBotLogToKafkaFile"/>
+        <file>${LOG_PATH}/bot-dicegame-service.log</file>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/bot-kafka-slotgame-service.%d{yyyy-MM-dd}.%i.log.zip
+            <fileNamePattern>${LOG_PATH}/bot-kafka-dicegame-service.%d{yyyy-MM-dd}.%i.log.zip
             </fileNamePattern>
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
@@ -108,11 +108,11 @@
     </appender>
     
     <appender name="reliable-kafka-trial-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="com.io.begstd.slot.utils.kafka.impl.FilterLogToKafkaTrial"/>
-        <file>${LOG_PATH}/trial-slotgame-service.log</file>
+        <filter class="com.io.begstd.dice.utils.kafka.impl.FilterLogToKafkaTrial"/>
+        <file>${LOG_PATH}/trial-dicegame-service.log</file>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/trial-slotgame-service.%d{yyyy-MM-dd}.%i.log.zip
+            <fileNamePattern>${LOG_PATH}/trial-dicegame-service.%d{yyyy-MM-dd}.%i.log.zip
             </fileNamePattern>
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
@@ -136,10 +136,10 @@
 
     <appender name="roll-daily"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/slotgame-service.log</file>
+        <file>${LOG_PATH}/dicegame-service.log</file>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/slotgame-service.%d{yyyy-MM-dd}.%i.log.zip
+            <fileNamePattern>${LOG_PATH}/dicegame-service.%d{yyyy-MM-dd}.%i.log.zip
             </fileNamePattern>
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
@@ -159,10 +159,10 @@
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
-        <file>${LOG_PATH}/slotgame-service-error.log</file>
+        <file>${LOG_PATH}/dicegame-service-error.log</file>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/slotgame-service-error.%d{yyyy-MM-dd}.%i.log.zip
+            <fileNamePattern>${LOG_PATH}/dicegame-service-error.%d{yyyy-MM-dd}.%i.log.zip
             </fileNamePattern>
             <maxHistory>${MAX_HISTORY}</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
@@ -178,11 +178,11 @@
     
     <springProfile name="default,localhost,staging,local,test">
         <logger name="org.springframework" level="ERROR" />
-        <logger name="com.io.begstd.slot" level="INFO" />
+        <logger name="com.io.begstd.dice" level="INFO" />
     </springProfile>
     <springProfile name="rtp">
         <logger name="org.springframework" level="ERROR" />
-        <logger name="com.io.begstd.slot" level="ERROR" />
+        <logger name="com.io.begstd.dice" level="ERROR" />
     </springProfile>
     <root level="INFO">
         <appender-ref ref="stdout" />

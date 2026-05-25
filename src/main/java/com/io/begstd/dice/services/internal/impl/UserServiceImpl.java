@@ -1,8 +1,8 @@
 package com.io.begstd.dice.services.internal.impl;
 
 import com.google.protobuf.Value;
-import com.io.begstd.extension.loader.DiceExtensionManagerImpl;
 import com.io.begstd.extension.loader.ExtensionLoader;
+import com.io.begstd.extension.loader.ExtensionManagerImpl;
 import com.io.begstd.log.LogMessage;
 import com.io.begstd.log.LogsUtils;
 import com.io.begstd.dice.model.app.BasePlaySession;
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     private PromotionService promotionService;
 
     @Autowired
-    private ExtensionLoader<DiceExtensionManagerImpl> extensionLoader;
+    private ExtensionLoader<ExtensionManagerImpl> extensionLoader;
 
     private IDiceMachineConfig slotMachineConfig;
 
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     public int joinGame(String commandId, UserInfo userInfo, DicePromotionData promotionData, int env) {
 
-        DiceExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
+        ExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
         ExtraDataInitGameExtension extraDataInitExtension = extensionManager.extraDataInitGameExtension();
         ResumeExtension resumeExtension = extensionManager.resumeExtension();
 

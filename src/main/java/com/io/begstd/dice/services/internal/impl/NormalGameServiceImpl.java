@@ -2,8 +2,8 @@ package com.io.begstd.dice.services.internal.impl;
 
 import com.io.begstd.dice.services.internal.BaseNormalGameService;
 import com.io.begstd.dice.services.internal.JackpotTrialModeService;
-import com.io.begstd.extension.loader.DiceExtensionManagerImpl;
 import com.io.begstd.extension.loader.ExtensionLoader;
+import com.io.begstd.extension.loader.ExtensionManagerImpl;
 import com.io.begstd.log.LogMessage;
 import com.io.begstd.log.LogsUtils;
 import com.io.begstd.dice.machine.IDiceGameMachine;
@@ -69,7 +69,7 @@ public final class NormalGameServiceImpl extends BaseNormalGameService implement
     JackpotTrialModeService jackpotTrialModeService;
 
     @Autowired
-    ExtensionLoader<DiceExtensionManagerImpl> extensionLoader;
+    ExtensionLoader<ExtensionManagerImpl> extensionLoader;
 
     /**
      * Spin logic step by step
@@ -92,7 +92,7 @@ public final class NormalGameServiceImpl extends BaseNormalGameService implement
         }
         IDiceMachineConfig slotMachineConfigNormal = (IDiceMachineConfig) configMapper.get(DiceConfigMode.NORMAL);
 
-        DiceExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
+        ExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
         PlaySessionExtension playSessionExtension  = extensionManager.playSessionExtension();
         PromotionExtension promotionExtension = extensionManager.promotionExtension();
         DenominationExtension denominationExtension = extensionManager.denominationExtension();

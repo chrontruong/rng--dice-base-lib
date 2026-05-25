@@ -1,7 +1,6 @@
 
 package com.io.begstd.dice.machine.impl;
 
-import com.io.begstd.extension.loader.DiceExtensionManagerImpl;
 import com.io.begstd.extension.loader.ExtensionLoader;
 import com.io.begstd.extension.loader.ExtensionManagerImpl;
 import com.io.begstd.log.LogMessage;
@@ -27,11 +26,11 @@ import java.util.Objects;
 public class BaseDiceMachineImpl implements IDiceGameMachine {
 
     @Autowired
-    private ExtensionLoader<DiceExtensionManagerImpl> extensionLoader;
+    private ExtensionLoader<ExtensionManagerImpl> extensionLoader;
 
-    protected ThreadLocal<DiceExtensionManagerImpl> extensionManagerThreadLocal = new ThreadLocal<>();
+    protected ThreadLocal<ExtensionManagerImpl> extensionManagerThreadLocal = new ThreadLocal<>();
 
-    public void bindExtension(DiceExtensionManagerImpl extensionManagerImpl) {
+    public void bindExtension(ExtensionManagerImpl extensionManagerImpl) {
         extensionManagerThreadLocal.set(extensionManagerImpl);
     }
 
@@ -40,7 +39,7 @@ public class BaseDiceMachineImpl implements IDiceGameMachine {
     }
 
     public BasePlaySession spin(BasePlaySession currentBasePlaySession, Map<DiceConfigMode, ICommonDiceConfig> configMapper) {
-        DiceExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
+        ExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
         SpinExtension spinExtension  = extensionManager.spinExtension();
         BasePlaySession updatedBasePlaySession = spinExtension.spin(
                 currentBasePlaySession,

@@ -1,4 +1,4 @@
-package com.io.begstd.slot;
+package com.io.begstd.dice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +8,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
-@EntityScan(basePackages = { "com.io.begstd.slot.model.domain" })
-@ComponentScan("com.io.begstd.slot")
+@EntityScan(basePackages = { "com.io.begstd.dice.model.domain" })
+@ComponentScan("com.io.begstd.dice")
 @EnableAspectJAutoProxy
 @Profile("!integration")
 public class BaseProjectApplication {

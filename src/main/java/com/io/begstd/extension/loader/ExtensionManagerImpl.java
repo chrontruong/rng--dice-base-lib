@@ -1,17 +1,15 @@
 package com.io.begstd.extension.loader;
 
 import com.io.begstd.extension.Extension;
-import com.io.begstd.slot.annotation.GameExtension;
-import com.io.begstd.slot.exception.ExtensionException;
-import com.io.begstd.slot.extension.WonRuleExtensionManager;
-import com.io.begstd.slot.factory.GameRuleFactory;
-import com.io.begstd.slot.model.config.ISlotMachineConfig;
-import com.io.begstd.slot.services.extension.common.*;
-import com.io.begstd.slot.services.extension.common.impl.*;
-import com.io.begstd.slot.services.extension.gameplay.*;
-import com.io.begstd.slot.services.extension.gameplay.impl.*;
-import com.io.begstd.slot.services.extension.validator.ValidationExtension;
-import com.io.begstd.slot.services.extension.validator.impl.ValidationExtensionImpl;
+import com.io.begstd.dice.annotation.GameExtension;
+import com.io.begstd.dice.exception.ExtensionException;
+import com.io.begstd.dice.extension.WonRuleExtensionManager;
+import com.io.begstd.dice.factory.GameRuleFactory;
+import com.io.begstd.dice.model.config.IDiceMachineConfig;
+import com.io.begstd.dice.services.extension.common.*;
+import com.io.begstd.dice.services.extension.common.impl.*;
+import com.io.begstd.dice.services.extension.validator.ValidationExtension;
+import com.io.begstd.dice.services.extension.validator.impl.ValidationExtensionImpl;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,7 +31,6 @@ import java.util.List;
 @Accessors(fluent = true)
 public class ExtensionManagerImpl implements com.io.begstd.extension.manager.ExtensionManager {
 
-    private BettingLinesExtension bettingLinesExtension;
     private DenominationExtension denominationExtension;
     private JackpotExtension jackpotExtension;
     private PlaySessionExtension playSessionExtension;
@@ -45,19 +42,10 @@ public class ExtensionManagerImpl implements com.io.begstd.extension.manager.Ext
     private ValidationExtension validationExtension;
     private SpinExtension spinExtension;
     private ResumeExtension resumeExtension;
-
-    private BonusGamePlayExtension bonusGamePlayExtension;
-    private FreeGameOptionPlayExtension freeGameOptionPlayExtension;
-    private LightningGamePlayExtension lightningGamePlayExtension;
-    private PowerUpGamePlayExtension powerUpGamePlayExtension;
-    private GamblePlayExtension gamblePlayExtension;
-    private GambleEndExtension gambleEndExtension;
-
     private ExtraDataInitGameExtension extraDataInitGameExtension;
     
     public ExtensionManagerImpl() {
         extraDataInitGameExtension =  new ExtraDataInitGameExtensionImpl();
-        bettingLinesExtension = new BettingLinesExtenstionImpl();
         denominationExtension = new DenominationExtensionImpl();
         jackpotExtension = new JackpotExtensionImpl();
         promotionExtension = new PromotionExtensionImpl();
@@ -68,17 +56,10 @@ public class ExtensionManagerImpl implements com.io.begstd.extension.manager.Ext
         validationExtension = new ValidationExtensionImpl();
         spinExtension = new SpinExtensionImpl();
         resumeExtension = new ResumeExtensionImpl();
-        
-        bonusGamePlayExtension = new BonusGamePlayExtensionImpl();
-        freeGameOptionPlayExtension = new FreeGameOptionPlayExtensionImpl();
-        lightningGamePlayExtension = new LightningGamePlayExtensionImpl();
-        powerUpGamePlayExtension = new PowerUpGamePlayExtensionImpl();
-        gamblePlayExtension = new GamblePlayExtensionImpl();
-        gambleEndExtension = new GambleEndExtensionImpl();
 
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AnnotationTypeFilter(GameExtension.class));
-        for (BeanDefinition bd : scanner.findCandidateComponents("com.io.begstd.slot.services.extension")) {
+        for (BeanDefinition bd : scanner.findCandidateComponents("com.io.begstd.dice.services.extension")) {
             try {
                 Class<?> clazz = Class.forName(bd.getBeanClassName());
                 GameExtension ext = clazz.getAnnotation(GameExtension.class);
@@ -89,14 +70,13 @@ public class ExtensionManagerImpl implements com.io.begstd.extension.manager.Ext
         }
     }
 
-    public void verify(List<ISlotMachineConfig> iSlotMachineConfigs, GameRuleFactory gameRuleFactory) {
+    public void verify(List<IDiceMachineConfig> iSlotMachineConfigs, GameRuleFactory gameRuleFactory) {
         wonRuleExtensionManager.verify(iSlotMachineConfigs, gameRuleFactory);
     }
 
     public ExtensionManagerImpl cloneObject() {
         return ExtensionManagerImpl.builder()
                 .extraDataInitGameExtension(extraDataInitGameExtension)
-                .bettingLinesExtension(bettingLinesExtension)
                 .denominationExtension(denominationExtension)
                 .jackpotExtension(jackpotExtension)
                 .playSessionExtension(playSessionExtension)
@@ -106,14 +86,8 @@ public class ExtensionManagerImpl implements com.io.begstd.extension.manager.Ext
                 .walletExtension(walletExtension)
                 .wonRuleExtensionManager(wonRuleExtensionManager.clone())
                 .validationExtension(validationExtension)
-                .bonusGamePlayExtension(bonusGamePlayExtension)
-                .freeGameOptionPlayExtension(freeGameOptionPlayExtension)
-                .lightningGamePlayExtension(lightningGamePlayExtension)
-                .powerUpGamePlayExtension(powerUpGamePlayExtension)
                 .spinExtension(spinExtension)
                 .resumeExtension(resumeExtension)
-                .gamblePlayExtension(gamblePlayExtension)
-                .gambleEndExtension(gambleEndExtension)
                 .build();
 
     }
@@ -123,9 +97,6 @@ public class ExtensionManagerImpl implements com.io.begstd.extension.manager.Ext
         switch (type) {
             case "ExtraDataInitGameExtension":
                 extraDataInitGameExtension = (ExtraDataInitGameExtension) clazz.getDeclaredConstructor().newInstance();
-                break;
-            case "BettingLinesExtension":
-                bettingLinesExtension = (BettingLinesExtension) clazz.getDeclaredConstructor().newInstance();
                 break;
             case "DenominationExtension":
                 denominationExtension = (DenominationExtension) clazz.getDeclaredConstructor().newInstance();
@@ -157,24 +128,6 @@ public class ExtensionManagerImpl implements com.io.begstd.extension.manager.Ext
             case "SpinExtension":
                 spinExtension = (SpinExtension) clazz.getDeclaredConstructor().newInstance();
                 break;
-            case "BonusGamePlayExtension":
-                bonusGamePlayExtension = (BonusGamePlayExtension) clazz.getDeclaredConstructor().newInstance();
-                break;
-            case "FreeGameOptionPlayExtension":
-                freeGameOptionPlayExtension = (FreeGameOptionPlayExtension) clazz.getDeclaredConstructor().newInstance();
-                break;
-            case "LightningGamePlayExtension":
-                lightningGamePlayExtension = (LightningGamePlayExtension) clazz.getDeclaredConstructor().newInstance();
-                break;
-            case "PowerUpGamePlayExtension":
-                powerUpGamePlayExtension = (PowerUpGamePlayExtension) clazz.getDeclaredConstructor().newInstance();
-                break;
-            case "GamblePlayExtension":
-                gamblePlayExtension = (GamblePlayExtension) clazz.getDeclaredConstructor().newInstance();
-                break;
-            case "GambleEndExtension":
-                gambleEndExtension = (GambleEndExtension) clazz.getDeclaredConstructor().newInstance();
-                break;
             case "ResumeExtension":
                 resumeExtension = (ResumeExtension) clazz.getDeclaredConstructor().newInstance();
                 break;
@@ -194,9 +147,6 @@ public class ExtensionManagerImpl implements com.io.begstd.extension.manager.Ext
     public <T extends Extension> T getBean(String name) {
         Extension extension;
         switch (name) {
-            case "BettingLinesExtension":
-                extension = bettingLinesExtension;
-                break;
             case "JackpotExtension":
                 extension = jackpotExtension;
                 break;
@@ -223,24 +173,6 @@ public class ExtensionManagerImpl implements com.io.begstd.extension.manager.Ext
                 break;
             case "SpinExtension":
                 extension = spinExtension;
-                break;
-            case "BonusGamePlayExtension":
-                extension = bonusGamePlayExtension;
-                break;
-            case "FreeGameOptionPlayExtension":
-                extension = freeGameOptionPlayExtension;
-                break;
-            case "LightningGamePlayExtension":
-                extension = lightningGamePlayExtension;
-                break;
-            case "PowerUpGamePlayExtension":
-                extension = powerUpGamePlayExtension;
-                break;
-            case "GamblePlayExtension":
-                extension = gamblePlayExtension;
-                break;
-            case "GambleEndExtension":
-                extension = gambleEndExtension;
                 break;
             case "ResumeExtension":
                 extension = resumeExtension;

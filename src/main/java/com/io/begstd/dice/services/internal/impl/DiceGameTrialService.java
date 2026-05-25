@@ -1,7 +1,6 @@
 package com.io.begstd.dice.services.internal.impl;
 
 import com.io.begstd.dice.services.internal.JackpotTrialModeService;
-import com.io.begstd.extension.loader.DiceExtensionManagerImpl;
 import com.io.begstd.extension.loader.ExtensionLoader;
 import com.io.begstd.extension.loader.ExtensionManagerImpl;
 import com.io.begstd.dice.model.app.BasePlaySession;
@@ -19,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DiceGameTrialService implements BaseTrialService {
 
     @Autowired
-    private ExtensionLoader<DiceExtensionManagerImpl> extensionLoader;
+    private ExtensionLoader<ExtensionManagerImpl> extensionLoader;
 
     @Autowired
     private ConfigManager configManager;
@@ -34,7 +33,7 @@ public class DiceGameTrialService implements BaseTrialService {
     public void clearPlaySession(UserInfo userInfo) {
         RedisPlaySessionRepositoryImpl playSessionRepository = BeanUtils.getBean(RedisPlaySessionRepositoryImpl.class);
         IDiceMachineConfig slotMachineConfig = (IDiceMachineConfig) configManager.getConfigMain(DiceConfigMode.NORMAL);
-        DiceExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
+        ExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
         ResumeExtension resumeExtension = extensionManager.resumeExtension();
         BasePlaySession basePlaySession = resumeExtension.getPlaySession(playSessionRepository, slotMachineConfig.serviceId(),
                 userInfo.userId(), userInfo.currency());
@@ -51,7 +50,7 @@ public class DiceGameTrialService implements BaseTrialService {
     public void clearProcessBeforeSpin(UserInfo userInfo) {
         RedisPlaySessionRepositoryImpl playSessionRepository = BeanUtils.getBean(RedisPlaySessionRepositoryImpl.class);
         IDiceMachineConfig slotMachineConfig = (IDiceMachineConfig) configManager.getConfigMain(DiceConfigMode.NORMAL);
-        DiceExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
+        ExtensionManagerImpl extensionManager = extensionLoader.getExtensionManager();
         ResumeExtension resumeExtension = extensionManager.resumeExtension();
         BasePlaySession basePlaySession = resumeExtension.getPlaySession(playSessionRepository, slotMachineConfig.serviceId(),
                 userInfo.userId(), userInfo.currency());

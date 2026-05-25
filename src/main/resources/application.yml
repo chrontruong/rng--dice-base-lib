@@ -1,6 +1,6 @@
 spring:
   application:
-    name: slot-games-service
+    name: dice-games-service
   profiles:
     active: local,test,game
   mvc:
@@ -19,16 +19,7 @@ spring:
 game:
   normal:
     config:
-      file: classpath:SlotGame_Normal_Config.json
-  free:
-    config:
-      file: classpath:SlotGame_Free_Config.json
-  mini:
-    config:
-      file: classpath:SlotGame_Mini_Config.json
-  gamble:
-    config:
-      file: classpath:SlotGame_Gamble_Config.json
+      file: classpath:DiceGame_Config.json
       
 extension:
   config:

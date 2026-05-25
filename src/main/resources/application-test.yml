@@ -40,5 +40,5 @@ grpc:
 server:
   port: 8090
   servlet:
-    context-path: /slot
+    context-path: /dice
     

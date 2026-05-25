@@ -1,0 +1,110 @@
+{
+    "serviceId": "9000",
+    "stateType": "jackpot-type",
+    "serviceCode": "SB",
+    "serviceName": "SB",
+    "prefixService": "kts_",
+    "wonRulesName": [],
+    "totalPercent": 100,
+    "totalCredit": 20,
+    "bigWinInfos": [
+        {
+            "winType": "BIG",
+            "state": "CURRENT",
+            "level": 10
+        },
+        {
+            "winType": "MEGA",
+            "state": "CURRENT",
+            "level": 20
+        },
+        {
+            "winType": "SUPER",
+            "state": "CURRENT",
+            "level": 30
+        }
+    ],
+    "currencyType": [
+        {
+            "name": "USD",
+            "type": "NORMAL",
+            "wo": 0
+        }
+    ],
+    "rtpDefault": "98",
+    "rtpDiceConifgs": [
+        {
+            "rtp": 96,
+            "desc": "RTP 96.5"
+        },
+        {
+            "rtp": 97,
+            "desc": "RTP 97.5"
+        },
+        {
+            "rtp": 98,
+            "desc": "RTP 98"
+        }
+    ],
+    "initTrialWalet": 243087000.0,
+    "initTrialJackpotList": [],
+    "initJackpotList": [
+        {
+            "id": 1,
+            "code": "_GRAND",
+            "initAmount": 10000,
+            "progressive": 1
+        }
+    ],
+    "denominationLevels": [
+        {
+            "indx": 1,
+            "id": "10",
+            "amount": 1,
+            "jackpotID": "9000_1_USD",
+            "env": [1, 2, 3],
+            "curr": "USD"
+        },
+        {
+            "indx": 2,
+            "id": "20",
+            "amount": 2,
+            "jackpotID": "9000_2_USD",
+            "env": [1, 2, 3],
+            "curr": "USD"
+        },
+        {
+            "indx": 3,
+            "id": "30",
+            "amount": 3,
+            "jackpotID": "9000_3_USD",
+            "env": [1, 2, 3],
+            "curr": "USD"
+        },
+        {
+            "indx": 4,
+            "id": "40",
+            "amount": 4,
+            "jackpotID": "9000_4_USD",
+            "env": [1, 2, 3],
+            "curr": "USD"
+        },
+        {
+            "indx": 5,
+            "id": "50",
+            "amount": 5,
+            "jackpotID": "9000_5_USD",
+            "env": [1, 2, 3],
+            "curr": "USD"
+        },
+        {
+            "indx": 6,
+            "id": "60",
+            "amount": 6,
+            "jackpotID": "9000_6_USD",
+            "env": [1, 2, 3],
+            "curr": "USD"
+        }
+    ],
+    "extraBetLevels": []
+}
