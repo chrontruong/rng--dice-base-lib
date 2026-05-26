@@ -25,6 +25,7 @@ public class SpinCmd {
     private String currency = DiceGameConstant.CURRENCY_DEFAULT;
     private List<Integer> lineIds = new ArrayList<>();
     private String lang;
+    private String betNumberDice;
 
     public DenominationLevel toBetPerLineModel(IDiceMachineConfig diceMachineConfig, BasePlaySession basePlaySession) throws DiceGameException {
         if (this.totalBetId != null && !this.totalBetId.equals("")) {

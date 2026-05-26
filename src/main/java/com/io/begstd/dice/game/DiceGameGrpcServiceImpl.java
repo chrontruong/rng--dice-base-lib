@@ -212,6 +212,9 @@ public class DiceGameGrpcServiceImpl extends DiceGameServiceGrpc.DiceGameService
         SpinCmd spinCmd = null;
         if (!request.getBId().equals("")) {
             spinCmd = new SpinCmd().totalBetId(request.getBId()).lineIds(request.getBLnList()).currency(currency.name()).lang(request.getL());
+            if (!request.getBnD().equals("")) {
+                spinCmd = spinCmd.betNumberDice(request.getBnD());
+            }
         }
         if (spinCmd != null) {
             UserInfo userInfo = UserInfo.builder()

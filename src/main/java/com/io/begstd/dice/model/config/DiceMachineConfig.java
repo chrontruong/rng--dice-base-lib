@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  */
 @Getter
 @Accessors(fluent = true)
-public final class DiceMachineConfigForNormal implements IDiceMachineConfig, InitializingBean {
+public final class DiceMachineConfig implements IDiceMachineConfig, InitializingBean {
 
     private String serviceId;
     private String serviceCode;

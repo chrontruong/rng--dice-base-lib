@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.io.begstd.dice.services.internal.JackpotTrialModeService;
+import com.io.begstd.krng.DigitalRandom;
 import com.io.begstd.log.LogMessage;
 import com.io.begstd.log.LogsUtils;
 import com.io.begstd.dice.factory.GameRuleFactory;
@@ -44,6 +45,8 @@ import org.springframework.util.StringUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.Instant;
@@ -55,6 +58,7 @@ import java.util.jar.Manifest;
 
 @Slf4j
 public class GameUtils {
+    private static final int MAX_NUMBER_DICE = 6;
     private static final NumberFormat DOUBLE_FORMATTER = new DecimalFormat("#.##");
 
     private static IPlaySessionClass playSessionClass;
@@ -508,12 +512,6 @@ public class GameUtils {
                               throw new DiceGameException(DiceGameError.WALLET_UNEXPECTED, walletProDto.basePlaySession().userId(), walletProDto.basePlaySession().userType(), walletProDto.basePlaySession().commandId(),
                                   String.format("Error in class %s call to method minusWalletAmount with error code %s", NormalGameServiceImpl.class, strResultCode));
                       }
-//                      if ("2005".equals(strResultCode)) {
-//                          throw new DiceGameException(DiceGameError.MONEY_NOT_ENOUGH, playSession.userId(), playSession.userType(), playSession.commandId());
-//                      } else {
-//                          throw new DiceGameException(DiceGameError.UNEXPECTED, playSession.userId(), playSession.userType(), playSession.commandId(),
-//                              String.format("Error in class %s call to method minusWalletAmount with error code %s", NormalGameServiceImpl.class, strResultCode));
-//                      }
                   }
                   walletProDto.logBuilder().stepName("Minus wallet").owner(LogMessage.OWNER_WALLET)
                       .message("Passed - Minus wallet in normal model"+ strResultCode)
@@ -615,5 +613,28 @@ public class GameUtils {
 
     public static String formatDouble(double value) {
         return DOUBLE_FORMATTER.format(value);
+    }
+
+    public static SecureRandom createRandom() {
+        try {
+            return new DigitalRandom();
+        } catch (UnsupportedOperationException var3) {
+            log.error("Used SecureRandom");
+
+            try {
+                return SecureRandom.getInstance("NativePRNG");
+            } catch (NoSuchAlgorithmException var2) {
+                log.error("No Digital, No SecureRandom");
+                return null;
+            }
+        }
+    }
+
+    public static int getSecureRandomValue(int max, SecureRandom secureRandom) {
+        return secureRandom.nextInt(max);
+    }
+
+    public static int randomDice(SecureRandom secureRandom) {
+        return secureRandom.nextInt(MAX_NUMBER_DICE);
     }
 }

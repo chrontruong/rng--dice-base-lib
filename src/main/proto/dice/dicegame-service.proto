@@ -82,7 +82,7 @@ message DiceNormalSpin {
     string ssid = 21;
     repeated int32 opts = 22;
     string l = 23;
-    string iOdd = 24;
+    string bnD = 24;
 }
 
 message DiceGetLatestStateRequest {

@@ -1,6 +1,6 @@
 package com.io.begstd.dice.rtp.model;
 
-import com.io.begstd.dice.model.config.DiceMachineConfigForNormal;
+import com.io.begstd.dice.model.config.DiceMachineConfig;
 import com.io.begstd.dice.model.domain.Money;
 import com.io.begstd.dice.model.gamerule.DenominationLevel;
 import com.io.begstd.dice.model.gamerule.InitJackpotChild;
@@ -866,7 +866,7 @@ public class RtpResult {
             resultBuilder.append("RTP GRAND="+ rtpGrand+" \n");
         }
 
-        DiceMachineConfigForNormal slotMachineConfigNormal = BeanUtils.getBean(DiceMachineConfigForNormal.class);
+        DiceMachineConfig slotMachineConfigNormal = BeanUtils.getBean(DiceMachineConfig.class);
         DenominationLevel betDemonPerTotalCredit = toBetPerLineModel(slotMachineConfigNormal, this.betId, this.currency);
         JackpotService jackpotService = BeanUtils.getBean(JackpotService.class);
         Map<String, Money> initJackpotGroup = initJackPots(slotMachineConfigNormal, betDemonPerTotalCredit);
@@ -1240,14 +1240,14 @@ public class RtpResult {
         return resultBuilder.toString();
     }
     
-    public DenominationLevel toBetPerLineModel(DiceMachineConfigForNormal slotMachineConfig, String idBet, String currency) {
+    public DenominationLevel toBetPerLineModel(DiceMachineConfig slotMachineConfig, String idBet, String currency) {
         char[] arrayId = idBet.toCharArray();
         return slotMachineConfig.getDenominationLevelsForBet(currency).stream()
                 .filter(bet -> bet.id().equals(String.valueOf(arrayId[0])+"0")).findFirst()
                 .orElseThrow(null);
     }
     
-    public Map<String, Money> initJackPots(DiceMachineConfigForNormal slotMachineConfigNormal, DenominationLevel denominationLevel) {
+    public Map<String, Money> initJackPots(DiceMachineConfig slotMachineConfigNormal, DenominationLevel denominationLevel) {
         Map<String, Money> jackpotGroup = new HashMap<>();
 
         for (InitJackpotChild jpItem : slotMachineConfigNormal.initJackpotList()) {
@@ -1258,7 +1258,7 @@ public class RtpResult {
         return jackpotGroup;
     }
     
-    public DenominationLevel initJackPotDemon(DiceMachineConfigForNormal slotMachineConfigNormal, String key) {
+    public DenominationLevel initJackPotDemon(DiceMachineConfig slotMachineConfigNormal, String key) {
         Map<String, Money> jackpotGroup = new HashMap<>();
 
         for (DenominationLevel denom : slotMachineConfigNormal.getDenominationLevels()) {

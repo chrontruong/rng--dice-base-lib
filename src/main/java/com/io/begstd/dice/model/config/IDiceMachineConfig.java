@@ -21,7 +21,6 @@ public interface IDiceMachineConfig extends ICommonDiceConfig {
     List<WonRuleExtension> wonRules();
     String serviceId();
 
-    int jackpotLineSize();
     List<InitJackpotChild> initJackpotList();
 
     ExtraBetLevelCmd getExtraBetLevelById(String id);

@@ -2,7 +2,7 @@ spring:
   application:
     name: dice-games-service
   profiles:
-    active: local,test,game
+    active: local,game
   mvc:
     view:
       prefix: /WEB-INF/views/jsp/
@@ -37,7 +37,7 @@ grpc:
 server:
   port: 9000 #TOMCAT SERVER PORT
   servlet:
-    context-path: /slot
+    context-path: /dice
 
 
 #Config for Test

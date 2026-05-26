@@ -5,7 +5,7 @@ import com.io.begstd.log.LogMessage;
 import com.io.begstd.log.LogsUtils;
 import com.io.begstd.dice.model.app.Promotion;
 import com.io.begstd.dice.model.config.CurrencyType;
-import com.io.begstd.dice.model.config.DiceMachineConfigForNormal;
+import com.io.begstd.dice.model.config.DiceMachineConfig;
 import com.io.begstd.dice.repository.PromotionRepositoryService;
 import com.io.begstd.dice.common.DiceGameConstant;
 import com.io.begstd.dice.grpc.promotiongame.PromotionDiceGameData;
@@ -22,7 +22,7 @@ import java.util.List;
 @GRpcService
 public class PromotionGameGrpcServiceImpl extends PromotionDiceGameServiceGrpc.PromotionDiceGameServiceImplBase {
     @Autowired
-    private DiceMachineConfigForNormal slotMachineConfig;
+    private DiceMachineConfig slotMachineConfig;
 
     @Autowired
     private PromotionRepositoryService promotionRepository;

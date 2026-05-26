@@ -6,7 +6,7 @@ import com.io.begstd.log.LogsUtils;
 import com.io.begstd.dice.model.app.BasePlaySession;
 import com.io.begstd.dice.model.app.UserInfo;
 import com.io.begstd.dice.model.config.CurrencyType;
-import com.io.begstd.dice.model.config.DiceMachineConfigForNormal;
+import com.io.begstd.dice.model.config.DiceMachineConfig;
 import com.io.begstd.dice.model.wallet.WalletOption;
 import com.io.begstd.dice.projection.IPlaySessionProjection;
 import com.io.begstd.dice.services.internal.ActivePlayerService;
@@ -45,7 +45,7 @@ public class BotDiceGameGrpcServiceImpl extends BotDiceGameServiceGrpc.BotDiceGa
     private ActivePlayerService activePlayerService;
 
     @Autowired
-    private DiceMachineConfigForNormal configNormal;
+    private DiceMachineConfig configNormal;
 
   //=============================================BOT==========================================================
   @Override
@@ -228,9 +228,6 @@ public class BotDiceGameGrpcServiceImpl extends BotDiceGameServiceGrpc.BotDiceGa
 @Accessors(fluent = true)
 class BaseViewerBotObj {
     private boolean isFinished;
-    private boolean hasBonusGame;
-    private boolean hasFreeGameGame;
-    private boolean hasFreeOptionGame;
 }
 
 

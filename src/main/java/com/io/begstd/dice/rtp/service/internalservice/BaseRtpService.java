@@ -2,7 +2,7 @@ package com.io.begstd.dice.rtp.service.internalservice;
 
 import com.io.begstd.dice.model.app.BasePlaySession;
 import com.io.begstd.dice.model.app.UserInfo;
-import com.io.begstd.dice.model.config.DiceMachineConfigForNormal;
+import com.io.begstd.dice.model.config.DiceMachineConfig;
 import com.io.begstd.dice.rtp.service.RtpService;
 import com.io.begstd.dice.services.internal.UserService;
 import com.io.begstd.dice.command.SpinCmd;
@@ -17,7 +17,7 @@ public class BaseRtpService implements RtpService {
     @Autowired
     UserService userService;
     @Autowired
-    DiceMachineConfigForNormal diceMachineConfigForNormal;
+    DiceMachineConfig diceMachineConfigForNormal;
 
     @Override
     public BasePlaySession executeNormalGame(String userId, String commandId, SpinCmd cmd) {
